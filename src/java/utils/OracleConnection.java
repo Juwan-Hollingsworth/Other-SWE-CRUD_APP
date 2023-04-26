@@ -27,7 +27,7 @@ public class OracleConnection {
            //@params url (endpoint) -> login creds
            //does any of this need to change to interact w/ our db?
             connection = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@0168.28.42.148:1521:csit", 
+                    "jdbc:oracle:thin:@168.28.42.148:1521:csit", 
                     "jhollingsworth5", 
                     "jhollingsworth5");
         }
@@ -59,7 +59,16 @@ public class OracleConnection {
         //step 1. get oracle connection handle
         Connection conn = OracleConnection.getConnection();
         //step 2. build sql command & statement
-        //step 3. process returned results from DB
+        String sql="select sysdate from dual";
+        //step 3. : execute
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        //step 4. process returned results from DB
+        while(rs.next()){
+            //pull data in result
+            System.out.println("Current Oracle Sever time is:" + rs.getString(1));
+            
+        }
         
 ;        
     }catch(Exception e){
@@ -69,4 +78,5 @@ public class OracleConnection {
      OracleConnection.closeConnection();
     }
     }
+    
 }
